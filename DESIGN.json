@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-26T00:00:00Z",
+  "title": "Design System: Static",
+  "extensions": {
+    "colorMeta": {
+      "deep-void":       { "role": "neutral",   "displayName": "Deep Void",       "canonical": "oklch(7% 0.006 70)",   "tonalRamp": ["#0d0d0d","#1b1916","#242019","#2f2b23","#3c372e","#534e44","#6e685d","#908a7e"] },
+      "warm-shadow":     { "role": "neutral",   "displayName": "Warm Shadow",     "canonical": "oklch(10% 0.006 70)",  "tonalRamp": ["#0d0d0d","#141311","#1b1916","#242019","#2f2b23","#3c372e","#534e44","#6e685d"] },
+      "dim-ember":       { "role": "neutral",   "displayName": "Dim Ember",       "canonical": "oklch(13% 0.007 70)",  "tonalRamp": ["#0d0d0d","#141311","#1b1916","#242019","#2f2b23","#3c372e","#534e44","#6e685d"] },
+      "low-ash":         { "role": "neutral",   "displayName": "Low Ash",         "canonical": "oklch(16% 0.008 70)",  "tonalRamp": ["#0d0d0d","#141311","#1b1916","#242019","#2f2b23","#3c372e","#534e44","#6e685d"] },
+      "electric-amber":  { "role": "primary",   "displayName": "Electric Amber",  "canonical": "oklch(74% 0.16 68)",   "tonalRamp": ["#2a1a02","#4a2e04","#7a4d0a","#a86b12","#c9821a","#f5a623","#f8bc5c","#fcd99a"] },
+      "amber-dim":       { "role": "primary",   "displayName": "Amber Dim",       "canonical": "oklch(56% 0.13 68)",   "tonalRamp": ["#2a1a02","#4a2e04","#7a4d0a","#a86b12","#b97d1c","#d4962a","#f5a623","#f8bc5c"] },
+      "amber-ink":       { "role": "primary",   "displayName": "Amber Ink",       "canonical": "oklch(12% 0.04 68)",   "tonalRamp": ["#0d0802","#1a1206","#2a1e08","#3e2d0c","#553d12","#6e4f18","#8f6920","#b97d1c"] },
+      "signal-cyan":     { "role": "secondary", "displayName": "Signal Cyan",     "canonical": "oklch(73% 0.09 212)",  "tonalRamp": ["#071820","#0e2e3c","#163e50","#1f5168","#2c6882","#3d8299","#6fc3d4","#a9dce6"] },
+      "signal-dim":      { "role": "secondary", "displayName": "Signal Dim",      "canonical": "oklch(27% 0.04 212)",  "tonalRamp": ["#071820","#0e2e3c","#163e50","#1f5168","#2c4a52","#3d6070","#6fc3d4","#a9dce6"] },
+      "parchment":       { "role": "neutral",   "displayName": "Parchment",       "canonical": "oklch(94% 0.006 70)",  "tonalRamp": ["#3c372e","#534e44","#6e685d","#908a7e","#c9c3b8","#e0dbd3","#f0ede8","#faf8f5"] },
+      "parchment-soft":  { "role": "neutral",   "displayName": "Parchment Soft",  "canonical": "oklch(79% 0.007 70)",  "tonalRamp": ["#3c372e","#534e44","#6e685d","#908a7e","#c9c3b8","#d8d3cc","#e8e4de","#f0ede8"] },
+      "parchment-mute":  { "role": "neutral",   "displayName": "Parchment Mute",  "canonical": "oklch(59% 0.008 70)",  "tonalRamp": ["#2a2620","#3c372e","#534e44","#6e685d","#908a7e","#b0aa9f","#c9c3b8","#e0dbd3"] },
+      "confirm-green":   { "role": "tertiary",  "displayName": "Confirm Green",   "canonical": "oklch(72% 0.09 150)",  "tonalRamp": ["#0f2010","#1a3a1c","#275a2a","#3a7a3e","#5aa05e","#8fbf7f","#b6d9a8","#d8eed2"] },
+      "caution-amber":   { "role": "tertiary",  "displayName": "Caution Amber",   "canonical": "oklch(72% 0.10 72)",   "tonalRamp": ["#2a1a04","#4a3008","#6e4c10","#9a6c18","#c48a28","#e0a35a","#eebd88","#f8d9b4"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headlines only. STATIC wordmark at near-viewport scale. Never used below step-3 size." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings, channel titles, board-level h2 elements." },
+      "title":    { "displayName": "Title", "purpose": "Card titles, chapter titles, sub-section h3 headings." },
+      "body":     { "displayName": "Body", "purpose": "All prose reading. Source Serif 4 with optical sizing. 65ch max line length." },
+      "label":    { "displayName": "Label", "purpose": "Navigation, kickers, tags, chips, disclosure summaries, system metadata. Always monospace. Usually uppercase." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "ease-standard",  "value": "cubic-bezier(0.22, 0.61, 0.36, 1)", "purpose": "All state transitions and view animations. Ease-out curve; no bounce." },
+      { "name": "rise-duration",  "value": "0.36s", "purpose": "View entry animation duration." },
+      { "name": "flip-duration",  "value": "0.5s",  "purpose": "Flip card 3D rotation duration." },
+      { "name": "micro-duration", "value": "0.15s–0.2s", "purpose": "Border color shifts, chevron rotation, chip press scale." }
+    ],
+    "breakpoints": [
+      { "name": "compact",  "value": "380px",  "purpose": "Topbar button text labels hidden below this; glyphs only." },
+      { "name": "grid-2",   "value": "560px",  "purpose": "Two-column card grids and split differentials activate." },
+      { "name": "cup-grid", "value": "620px",  "purpose": "Capacity Cup switches to side-by-side layout." },
+      { "name": "maxw",     "value": "720px",  "purpose": "Standard view max-width. Content column cap." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "btn-ghost",
+      "description": "Default action button. Monospace label, full-pill radius. Used for secondary actions: reset, clear, navigate.",
+      "html": "<button class=\"ds-btn\">Reset</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.7rem 1.1rem; border-radius: 999px; font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 0.82rem; letter-spacing: 0.04em; border: 1px solid rgba(240,237,232,0.18); color: #f0ede8; background: #141311; cursor: pointer; min-height: 44px; transition: transform 0.15s cubic-bezier(0.22,0.61,0.36,1); } .ds-btn:active { transform: scale(0.97); } .ds-btn:focus-visible { outline: 2px solid #f5a623; outline-offset: 2px; border-radius: 999px; }"
+    },
+    {
+      "name": "Accent Button",
+      "kind": "button",
+      "refersTo": "btn-accent",
+      "description": "Primary action button. Electric amber fill. Used sparingly for the one primary CTA on a screen.",
+      "html": "<button class=\"ds-btn-accent\">View Strategies</button>",
+      "css": ".ds-btn-accent { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.7rem 1.1rem; border-radius: 999px; font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 0.82rem; letter-spacing: 0.04em; border: 1px solid #f5a623; color: #1a1206; background: #f5a623; cursor: pointer; min-height: 44px; transition: transform 0.15s cubic-bezier(0.22,0.61,0.36,1); } .ds-btn-accent:active { transform: scale(0.97); } .ds-btn-accent:focus-visible { outline: 2px solid #f5a623; outline-offset: 4px; border-radius: 999px; }"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip-default",
+      "description": "Toggle chip for content filtering. Default is unselected (ghost). Active fills amber. Press scales down slightly.",
+      "html": "<button class=\"ds-chip\" aria-pressed=\"false\">Sensory</button>",
+      "css": ".ds-chip { font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 0.45rem 0.8rem; border-radius: 999px; border: 1px solid rgba(240,237,232,0.18); color: #c9c3b8; cursor: pointer; background: none; min-height: 36px; transition: all 0.15s cubic-bezier(0.22,0.61,0.36,1); } .ds-chip[aria-pressed=\"true\"] { background: #f5a623; border-color: #f5a623; color: #1a1206; } .ds-chip:active { transform: scale(0.95); } .ds-chip:focus-visible { outline: 2px solid #f5a623; outline-offset: 2px; }"
+    },
+    {
+      "name": "Default Tag",
+      "kind": "chip",
+      "refersTo": "tag-default",
+      "description": "Read-only metadata label. Ghost pill. Used for signal-type, source labels, and category metadata.",
+      "html": "<span class=\"ds-tag\">Executive Function</span>",
+      "css": ".ds-tag { display: inline-flex; align-items: center; gap: 0.3rem; font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.28rem 0.55rem; border-radius: 999px; border: 1px solid rgba(240,237,232,0.18); color: #c9c3b8; white-space: nowrap; }"
+    },
+    {
+      "name": "Signal Tag",
+      "kind": "chip",
+      "refersTo": "tag-signal",
+      "description": "Neurological system label. Cyan border and text. Marks mechanism/system metadata, distinct from amber navigational tags.",
+      "html": "<span class=\"ds-tag-signal\">Interoception</span>",
+      "css": ".ds-tag-signal { display: inline-flex; align-items: center; gap: 0.3rem; font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.28rem 0.55rem; border-radius: 999px; border: 1px solid #2c4a52; color: #6fc3d4; white-space: nowrap; }"
+    },
+    {
+      "name": "Content Card",
+      "kind": "card",
+      "refersTo": "card-default",
+      "description": "Primary navigable content unit. Warm shadow surface, amber hover border, press scale. Arrow glyph indicates drilldown.",
+      "html": "<a class=\"ds-card\" href=\"#\">\n  <span class=\"ds-card__kicker\">Sensory</span>\n  <h3 class=\"ds-card__title\">Sensory Gating</h3>\n  <span class=\"ds-card__sub\">The filtering mechanism</span>\n  <span class=\"ds-card__arrow\" aria-hidden=\"true\">›</span>\n</a>",
+      "css": ".ds-card { display: block; background: #141311; border: 1px solid rgba(240,237,232,0.10); border-radius: 14px; padding: 1.5rem; position: relative; transition: border-color 0.2s, transform 0.2s; text-decoration: none; color: #f0ede8; } .ds-card:hover { border-color: #b97d1c; } .ds-card:active { transform: scale(0.985); border-color: rgba(240,237,232,0.18); } .ds-card__kicker { font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: #f5a623; margin-bottom: 0.6rem; display: block; } .ds-card__title { font-family: \"Barlow Condensed\", \"Arial Narrow\", sans-serif; font-size: 1.25rem; font-weight: 600; line-height: 1.04; letter-spacing: 0.01em; margin: 0 0 0.35rem; } .ds-card__sub { color: #908a7e; font-size: 0.82rem; font-family: \"IBM Plex Mono\", ui-monospace, monospace; } .ds-card__arrow { position: absolute; right: 1rem; top: 1.5rem; color: #908a7e; font-size: 1.3rem; }"
+    },
+    {
+      "name": "Disclosure Panel",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Progressive disclosure expander. Closed: chevron right. Open: chevron rotated 90deg. Reduced-motion: instant. Used for mechanism depth, sources, and extended explanations.",
+      "html": "<details class=\"ds-disc\">\n  <summary>Key Systems <span class=\"ds-chev\" aria-hidden=\"true\">›</span></summary>\n  <div class=\"ds-disc__body\">\n    <p>The reticular activating system governs alertness thresholds.</p>\n  </div>\n</details>",
+      "css": ".ds-disc { border: 1px solid rgba(240,237,232,0.10); border-radius: 9px; background: #141311; overflow: hidden; margin-top: 0.6rem; } .ds-disc > summary { list-style: none; cursor: pointer; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase; color: #c9c3b8; min-height: 44px; } .ds-disc > summary::-webkit-details-marker { display: none; } .ds-chev { color: #f5a623; transition: transform 0.2s cubic-bezier(0.22,0.61,0.36,1); font-size: 1.2em; } .ds-disc[open] .ds-chev { transform: rotate(90deg); } .ds-disc > summary:active { background: #1b1916; } .ds-disc__body { padding: 0 1.5rem 1.5rem; color: #c9c3b8; } @media (prefers-reduced-motion: reduce) { .ds-chev { transition: none; } }"
+    },
+    {
+      "name": "Bottom Navigation Tab",
+      "kind": "nav",
+      "refersTo": null,
+      "description": "One of five fixed bottom tabs. Inactive: muted parchment. Active: electric amber. Icon glyph + uppercase monospace label.",
+      "html": "<nav class=\"ds-tabbar\" aria-label=\"Primary\">\n  <a class=\"ds-tab\" href=\"#/\"><span class=\"ds-tab__ico\" aria-hidden=\"true\">◉</span><span>Home</span></a>\n  <a class=\"ds-tab ds-tab--active\" aria-current=\"page\" href=\"#/board\"><span class=\"ds-tab__ico\" aria-hidden=\"true\">⊞</span><span>Map</span></a>\n  <a class=\"ds-tab\" href=\"#/mechanics\"><span class=\"ds-tab__ico\" aria-hidden=\"true\">◐</span><span>Mechanics</span></a>\n</nav>",
+      "css": ".ds-tabbar { display: flex; background: rgba(13,13,13,0.9); border-top: 1px solid rgba(240,237,232,0.10); } .ds-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; flex: 1; color: #908a7e; font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 0.62rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 8px 0 6px; text-decoration: none; min-height: 44px; } .ds-tab__ico { font-size: 1.15rem; line-height: 1; } .ds-tab--active, .ds-tab[aria-current=\"page\"] { color: #f5a623; } .ds-tab:active { color: #f0ede8; }"
+    },
+    {
+      "name": "Cross-link Pill",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Inline navigation to related content. Ghost pill with amber arrow indicator. Used in cross-reference rows below content.",
+      "html": "<a class=\"ds-xlink\" href=\"#/mechanics/sensory\">Sensory Gating <span class=\"ds-xlink__ar\" aria-hidden=\"true\">›</span></a>",
+      "css": ".ds-xlink { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.75rem; border-radius: 999px; border: 1px solid rgba(240,237,232,0.18); font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 0.72rem; color: #c9c3b8; text-decoration: none; transition: background 0.15s; } .ds-xlink:active { background: #1b1916; } .ds-xlink__ar { color: #f5a623; }"
+    },
+    {
+      "name": "Toggle (Capacity Tool)",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Interactive toggle for the Capacity Cup tool. Off: ghost surface. On: dim ember background, amber weight indicator. Drain variant uses cyan.",
+      "html": "<button class=\"ds-toggle\" aria-pressed=\"false\">\n  <span>Sensory overload</span>\n  <span class=\"ds-toggle__w\">+20%</span>\n</button>",
+      "css": ".ds-toggle { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; padding: 1rem; border: 1px solid rgba(240,237,232,0.10); border-radius: 9px; background: #141311; cursor: pointer; min-height: 44px; text-align: left; width: 100%; font-family: \"Source Serif 4\", Georgia, serif; font-size: 1rem; color: #c9c3b8; transition: border-color 0.15s, background 0.15s, color 0.15s; } .ds-toggle[aria-pressed=\"true\"] { border-color: #b97d1c; background: #1b1916; color: #f0ede8; } .ds-toggle__w { font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 0.7rem; color: #908a7e; flex-shrink: 0; } .ds-toggle[aria-pressed=\"true\"] .ds-toggle__w { color: #f5a623; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Field Manual",
+    "overview": "Static is designed as a document issued to someone who actually needs it. Not a consumer product designed for delight, not a clinical portal designed to manage patients. A field manual: stripped of decoration, dense with truth, portable enough to use while depleted. The interface is paper-dark rather than screen-black, warm-neutral rather than corporate grey. The typography shifts registers deliberately: condensed sans for wayfinding and structure, optical-size serif for reading, monospace for data and system labels. Each register has its role and does not bleed into the others.\n\nThe reading experience is designed around what the audience brings: limited working memory, a leaky sensory gate, interest-led attention, and a low tolerance for anything that wastes it. That means every element earns its presence or it is not there. There is no ambient decoration, no motion that was not asked for, no color used for its own sake. The electric amber accent is a signal, not a style choice. When it appears, it means something: a location, a state change, an affordance.\n\nThis system rejects the aesthetics of wellness apps (performed calm in pastels), the ADHD influencer register (loud neon, energetic microtype), clinical portals (healthcare-teal, patient hierarchy), and SaaS landing pages (hero metrics, gradient text, benefit bullets). It also refuses the Notion-public-page reflex: beige and Helvetica and database tables. Static is a reading experience, not a workspace.",
+    "keyCharacteristics": [
+      "Dark and warm, not dark and cold: backgrounds tinted brown-black toward amber, never blue-black",
+      "Three-register typography with strict role separation: condensed sans, optical serif, monospace",
+      "Single accent color carrying all navigational, state, and interactive meaning",
+      "Tonal depth through background layering, never shadows",
+      "Motion strictly gated behind prefers-reduced-motion: no-preference",
+      "All interactive targets at minimum 44px touch target height"
+    ],
+    "rules": [
+      { "name": "The Electric Signal Rule", "body": "The amber accent is used on ≤10% of any given screen surface. It marks location, state, and affordance. It does not decorate. If you find yourself reaching for amber as a background fill for anything except a button or chip in active state, stop.", "section": "colors" },
+      { "name": "The Warm-Dark Rule", "body": "All backgrounds are tinted brown-amber, not blue-grey. The hexadecimal red channel is always higher than the blue channel in neutrals. #0d0d0d not #0a0a0f. This is not incidental; it is the system's warmth against the cold-screen reflex.", "section": "colors" },
+      { "name": "The Register Rule", "body": "Display font for structure. Serif for reading. Mono for system. A condensed sans heading inside a prose paragraph is a category error. A serif label on a chip is a category error. The three registers do not mix roles.", "section": "typography" },
+      { "name": "The Kicker Rule", "body": "Kickers appear above a heading in monospace uppercase at 0.18em letter-spacing. They identify content type (a chapter, a section, a signal category). They are never the first thing on a screen; they set context for what follows.", "section": "typography" },
+      { "name": "The Tonal Layering Rule", "body": "Depth is expressed by moving up the warmth ramp: void → warm shadow → dim ember → low ash. box-shadow is prohibited on all surfaces. If a surface needs to 'lift', use the next background step.", "section": "elevation" },
+      { "name": "The Blur Exception Rule", "body": "backdrop-filter: blur() is permitted only on the fixed topbar and tabbar, where it marks the boundary between navigation and content. It is never used decoratively on cards, modals, or content surfaces.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use the three typography registers for their assigned roles: Barlow Condensed for headings and structure, Source Serif 4 for all prose reading, IBM Plex Mono for labels, tags, navigation, and system data.",
+      "Do express depth through background tonal layering (void → warm shadow → dim ember → low ash). Step up one level to elevate a surface.",
+      "Do gate all animation behind @media (prefers-reduced-motion: no-preference). View transitions, stagger animations, flip card rotations, and cup fill transitions must all be inside this block.",
+      "Do maintain minimum 44px touch targets on every interactive element (buttons, chips, tabs, disclosure summaries, toggles).",
+      "Do use the amber accent to signal location, state, and interactivity. Its presence always means something. Ration it to ≤10% of any screen surface.",
+      "Do use amber for navigational/state signaling and cyan for neurological system/mechanism tagging. These semantic lanes do not cross.",
+      "Do tint all neutrals toward warm brown-amber. The red channel must exceed the blue channel in every background and text value.",
+      "Do use pill-radius (999px) for chips, tags, buttons, and cross-links; use card-radius (14px) for content containers.",
+      "Do cap body text line length at 65ch (achieved by the 720px max-width container at mobile-first base).",
+      "Do cite PRODUCT.md principles when a design decision is contested. 'Does this feel calm enough for someone in burnout? Can they get to the core and back out without effort?' is the canonical test."
+    ],
+    "donts": [
+      "Don't use box-shadows on any surface. Prohibited. If depth is needed, use the warmth ramp.",
+      "Don't use border-left or border-right greater than 1px as a decorative accent stripe.",
+      "Don't use background-clip: text with a gradient. All text is a single solid color.",
+      "Don't add motion outside a prefers-reduced-motion: no-preference media query. This audience has real sensory sensitivity to unexpected motion.",
+      "Don't design for wellness app aesthetics: no pastels, no round illustrations, no 'calm' as a performed style rather than a structural quality.",
+      "Don't reach for the ADHD influencer register: no neon, no energetic motion, no bold-typeface-yelling.",
+      "Don't use clinical portal patterns: healthcare-teal palettes, patient-portal hierarchy, form-heavy grid layouts.",
+      "Don't build SaaS landing page elements: hero metric panels, gradient text overlays, benefit bullet towers, CTA stacks, testimonial carousels.",
+      "Don't use Notion-public-page aesthetic: beige backgrounds, Helvetica or Inter body text, database table layouts as primary UI.",
+      "Don't use #000000 or #ffffff anywhere. Black is #0d0d0d (warm-tinted). White is #f0ede8 (parchment-warm).",
+      "Don't nest cards inside cards. Ever.",
+      "Don't reach for a modal as the first solution to any interaction problem. Disclosure panels, inline expand, or route navigation are all preferred.",
+      "Don't add content or decoration that cannot answer: 'does this serve someone reading this in cognitive overload?' If the answer is unclear, remove it."
+    ]
+  }
+}

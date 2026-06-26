@@ -1,3 +1,4 @@
 /original files to rename/
 node_modules/
 .DS_Store
+graphify-out/
