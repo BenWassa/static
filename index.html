@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0D0D0D" />
+  <meta name="color-scheme" content="dark" />
+  <title>Static — a mechanical guide to the autistic &amp; AuDHD nervous system</title>
+  <meta name="description" content="Static is a calm, scannable, mobile guide to the mechanics of autistic and AuDHD experience: sensory processing, executive function, capacity, masking — and what actually helps." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Static" />
+  <meta property="og:description" content="A mechanical guide to the autistic & AuDHD nervous system. Scannable surface, deep core." />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d0d0d'/%3E%3Ctext x='16' y='23' font-family='Arial Narrow,sans-serif' font-weight='700' font-size='22' fill='%23f5a623' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/site/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#app">Skip to content</a>
+
+  <!-- Top bar: one tap out, always. -->
+  <header class="topbar" id="topbar">
+    <button class="topbar__btn" id="backBtn" aria-label="Go back" title="Back">
+      <span class="ico" aria-hidden="true">‹</span><span class="topbar__btn-label">Back</span>
+    </button>
+    <a class="topbar__here" id="hereLabel" href="#/" aria-live="polite">Static</a>
+    <a class="topbar__btn topbar__btn--right" href="#/board" aria-label="Signal Board — the map" title="Signal Board">
+      <span class="topbar__btn-label">Map</span><span class="ico" aria-hidden="true">⊞</span>
+    </a>
+  </header>
+
+  <main id="app" class="app" tabindex="-1"><!-- views render here --></main>
+
+  <!-- Bottom tabs: zoom out to any major area in one tap. -->
+  <nav class="tabbar" id="tabbar" aria-label="Primary">
+    <a class="tab" data-tab="home" href="#/"><span class="tab__ico" aria-hidden="true">◉</span><span>Home</span></a>
+    <a class="tab" data-tab="board" href="#/board"><span class="tab__ico" aria-hidden="true">⊞</span><span>Map</span></a>
+    <a class="tab" data-tab="mechanics" href="#/mechanics"><span class="tab__ico" aria-hidden="true">◐</span><span>Mechanics</span></a>
+    <a class="tab" data-tab="strategies" href="#/strategies"><span class="tab__ico" aria-hidden="true">▤</span><span>Strategies</span></a>
+    <a class="tab" data-tab="explore" href="#/explore"><span class="tab__ico" aria-hidden="true">◈</span><span>Explore</span></a>
+  </nav>
+
+  <div class="noise" aria-hidden="true"></div>
+
+  <script src="assets/site/data.js"></script>
+  <script src="assets/site/app.js"></script>
+</body>
+</html>
