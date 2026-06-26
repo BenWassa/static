@@ -84,7 +84,7 @@ strong { color: var(--ink); font-weight: 600; }
 .skip-link {
   position: fixed; top: -60px; left: 50%; transform: translateX(-50%);
   background: var(--accent); color: var(--accent-ink); padding: 0.6rem 1rem;
-  border-radius: 0 0 10px 10px; z-index: 200; transition: top 0.15s;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm); z-index: 200; transition: top 0.15s;
   font-family: var(--mono); font-size: var(--step--1);
 }
 .skip-link:focus { top: 0; }

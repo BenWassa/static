@@ -120,6 +120,15 @@ This system rejects the aesthetics of wellness apps (performed calm in pastels),
 - Motion strictly gated behind `prefers-reduced-motion: no-preference`
 - All interactive targets at minimum 44px touch target height
 
+### Sanctioned Brand Texture
+
+Two deliberate, owner-approved exceptions to "nothing competes" — they are signature, not decoration-by-reflex, and must not be flagged as principle violations:
+
+- **The interference grain** (`.noise`): a fixed, full-viewport SVG fractal-noise layer, soft-light blend, low opacity, and entirely static (never animated, so it sits outside the motion gate). It gives the dark field the texture of a printed field manual rather than a backlit screen. It is the only full-surface texture permitted.
+- **The glitched wordmark**: the single amber `I` in `STAT[I]C` on the home hero. The product is named for signal interference; one displaced glyph names the thesis. This is the only sanctioned use of a "glitch" gesture, and it spends amber on identity, not decoration.
+
+Any new decorative element still must earn its place. These two have. Everything else answers to "if it doesn't earn its presence, it isn't there."
+
 ## 2. Colors: The Amber-Dark System
 
 A near-monochrome dark system with a single electric accent and one navigational secondary. The warmth is structural: every neutral is tinted toward brown-amber, not blue.

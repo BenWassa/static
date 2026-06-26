@@ -329,13 +329,22 @@
         return '<button class="chip" data-timing="' + esc(t) + '" aria-pressed="' + (stratState.timing === t) + '">' + esc(t === 'all' ? 'Any time' : t) + '</button>';
       }).join('');
     }
+    function isFiltered() { return stratState.cat !== 'all' || stratState.timing !== 'all'; }
+    function filterSummary() {
+      if (!isFiltered()) return 'Filter by area or timing';
+      var parts = [];
+      if (stratState.cat !== 'all') parts.push(stratState.cat);
+      if (stratState.timing !== 'all') parts.push(stratState.timing);
+      return 'Filtered · ' + parts.join(' · ');
+    }
     function listHtml() {
       var items = DATA.strategies.filter(function (s) {
         return (stratState.cat === 'all' || s.category === stratState.cat) &&
                (stratState.timing === 'all' || (s.timing || []).indexOf(stratState.timing) !== -1);
       });
-      if (!items.length) return '<div class="empty">No strategies match. <button class="chip" id="resetFilters">Reset filters</button></div>';
-      return '<div class="stack">' + items.map(stratCard).join('') + '</div>';
+      var count = isFiltered() ? '<p class="muted mono" style="font-size:var(--step--1);margin-bottom:var(--s3)">' + items.length + ' of ' + DATA.strategies.length + ' shown</p>' : '';
+      if (!items.length) return count + '<div class="empty">Nothing matches that combination. <button class="btn" id="resetFilters">Reset filters</button></div>';
+      return count + '<div class="stack">' + items.map(stratCard).join('') + '</div>';
     }
     function stratCard(s) {
       var ev = s.evidence === 'Strong' ? 'strong' : s.evidence === 'Moderate' ? 'moderate' : 'emerging';
@@ -356,14 +365,22 @@
       '<div class="view">' +
         '<span class="kicker">Part 3 · Operating manual</span>' +
         '<h1 style="font-size:var(--step-3);margin-bottom:var(--s2)">Strategies</h1>' +
-        '<p class="lede">' + DATA.strategies.length + ' approaches. Each says what it is, why it works, and how to start. Filter to what you need right now.</p>' +
-        '<div class="chips" id="catChips">' + catChips() + '</div>' +
-        '<div class="chips" id="timeChips" style="margin-top:0">' + timeChips() + '</div>' +
-        '<div id="stratList">' + listHtml() + '</div>' +
+        '<p class="lede">' + DATA.strategies.length + ' approaches. Each says what it is, why it works, and how to start. The full set is below; narrow it only if you want to.</p>' +
+        '<details class="disc" id="stratFilters">' +
+          '<summary><span id="filterSummary">' + esc(filterSummary()) + '</span><span class="chev" aria-hidden="true">›</span></summary>' +
+          '<div class="disc__body">' +
+            '<span class="kicker" style="margin-bottom:var(--s2)">By area</span>' +
+            '<div class="chips" id="catChips" style="margin-top:0">' + catChips() + '</div>' +
+            '<span class="kicker" style="margin-bottom:var(--s2)">By timing</span>' +
+            '<div class="chips" id="timeChips" style="margin:0">' + timeChips() + '</div>' +
+          '</div>' +
+        '</details>' +
+        '<div id="stratList" style="margin-top:var(--s4)">' + listHtml() + '</div>' +
       '</div>';
 
     function onMount() {
       var listEl = document.getElementById('stratList');
+      var summaryEl = document.getElementById('filterSummary');
       document.getElementById('catChips').addEventListener('click', function (e) {
         var b = e.target.closest('[data-cat]'); if (!b) return;
         stratState.cat = b.getAttribute('data-cat');
@@ -380,6 +397,7 @@
       function refreshPressed() {
         [].forEach.call(document.querySelectorAll('[data-cat]'), function (b) { b.setAttribute('aria-pressed', stratState.cat === b.getAttribute('data-cat')); });
         [].forEach.call(document.querySelectorAll('[data-timing]'), function (b) { b.setAttribute('aria-pressed', stratState.timing === b.getAttribute('data-timing')); });
+        if (summaryEl) summaryEl.textContent = filterSummary();
       }
     }
     return { html: html, here: 'Strategies', up: '#/board', onMount: onMount };
@@ -589,7 +607,7 @@
         var shown = Math.min(100, v);
         fill.style.height = shown + '%';
         pct.textContent = v + '%';
-        if (v >= 100) { fill.classList.add('over'); msg.textContent = 'Overflow. This is where the pen gets thrown.'; }
+        if (v >= 100) { fill.classList.add('over'); msg.textContent = 'Overflow. Past here, a small trigger produces a large response.'; }
         else { fill.classList.remove('over');
           msg.textContent = v === 0 ? 'Empty. A fresh start.' : v < 40 ? 'Capacity to spare.' : v < 75 ? 'Filling up — running on reserves.' : 'Near the edge. Small things will feel big.';
         }
