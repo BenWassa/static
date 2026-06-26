@@ -188,7 +188,7 @@
               '<h3 class="card__title">' + esc(p[0]) + '</h3><p style="margin:0;color:var(--ink-soft)">' + esc(p[1]) + '</p></div>';
           }).join('') +
         '</div>' +
-        '<div class="footer-note">The full rationale lives in <span class="mono">PRINCIPLES.md</span> in the repository.</div>' +
+        '<div class="footer-note">These ten principles shape every screen you read here. <a href="#/about">More about this project →</a></div>' +
       '</div>';
     return { html: html, here: 'Principles', up: '#/board' };
   }
