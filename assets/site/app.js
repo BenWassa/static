@@ -50,7 +50,12 @@
   function slug(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''); }
 
   /* ---------- router ---------- */
-  var navDepth = 0;
+  // Back must behave predictably — it is the audience's escape promise.
+  // Depth is read from history.state, not a hand-rolled counter that desyncs.
+  var HOME_FALLBACK = '#/board';
+  var lastDepth = 0;
+  var firstRender = true;
+  function navDepthNow() { return (history.state && typeof history.state.d === 'number') ? history.state.d : 0; }
   var routes = []; // {re, names, fn}
   function route(pattern, fn) {
     var names = [];
@@ -87,7 +92,7 @@
     hereLabel.setAttribute('href', out.up || '#/');
 
     // back button: enabled when we have app history depth
-    backBtn.disabled = navDepth <= 0;
+    backBtn.disabled = navDepthNow() <= 0;
 
     // tabs current
     var area = currentArea(hash);
@@ -96,18 +101,31 @@
       else t.removeAttribute('aria-current');
     });
 
-    // scroll + focus for orientation
+    // scroll + move focus to the new page heading so SR and keyboard users are
+    // told where they are. Skip on first paint so the skip-link stays reachable.
     window.scrollTo(0, 0);
+    if (!firstRender) {
+      var heading = app.querySelector('h1');
+      if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); }
+      else { app.focus({ preventScroll: true }); }
+    }
+    firstRender = false;
     if (out.onMount) out.onMount();
   }
 
-  window.addEventListener('hashchange', function () { navDepth++; render(); });
-  backBtn.addEventListener('click', function () {
-    if (navDepth > 0) { history.back(); }
-    else { location.hash = '#/board'; }
+  window.addEventListener('hashchange', function () {
+    // A fresh forward navigation arrives with no state — stamp it one level deeper.
+    // Returning to an existing entry already carries its depth, so leave it alone.
+    if (!history.state || typeof history.state.d !== 'number') {
+      history.replaceState({ d: lastDepth + 1 }, '');
+    }
+    lastDepth = navDepthNow();
+    render();
   });
-  // keep navDepth honest on back/forward
-  window.addEventListener('popstate', function () { if (navDepth > 0) navDepth--; });
+  backBtn.addEventListener('click', function () {
+    if (navDepthNow() > 0) { history.back(); }
+    else { location.hash = HOME_FALLBACK; }
+  });
 
   /* ============================================================
      VIEWS
@@ -170,7 +188,7 @@
               '<h3 class="card__title">' + esc(p[0]) + '</h3><p style="margin:0;color:var(--ink-soft)">' + esc(p[1]) + '</p></div>';
           }).join('') +
         '</div>' +
-        '<div class="footer-note">The full rationale lives in <span class="mono">PRINCIPLES.md</span> in the repository.</div>' +
+        '<div class="footer-note">These ten principles shape every screen you read here. <a href="#/about">More about this project →</a></div>' +
       '</div>';
     return { html: html, here: 'Principles', up: '#/board' };
   }
@@ -311,13 +329,22 @@
         return '<button class="chip" data-timing="' + esc(t) + '" aria-pressed="' + (stratState.timing === t) + '">' + esc(t === 'all' ? 'Any time' : t) + '</button>';
       }).join('');
     }
+    function isFiltered() { return stratState.cat !== 'all' || stratState.timing !== 'all'; }
+    function filterSummary() {
+      if (!isFiltered()) return 'Filter by area or timing';
+      var parts = [];
+      if (stratState.cat !== 'all') parts.push(stratState.cat);
+      if (stratState.timing !== 'all') parts.push(stratState.timing);
+      return 'Filtered · ' + parts.join(' · ');
+    }
     function listHtml() {
       var items = DATA.strategies.filter(function (s) {
         return (stratState.cat === 'all' || s.category === stratState.cat) &&
                (stratState.timing === 'all' || (s.timing || []).indexOf(stratState.timing) !== -1);
       });
-      if (!items.length) return '<div class="empty">No strategies match. <button class="chip" id="resetFilters">Reset filters</button></div>';
-      return '<div class="stack">' + items.map(stratCard).join('') + '</div>';
+      var count = isFiltered() ? '<p class="muted mono" style="font-size:var(--step--1);margin-bottom:var(--s3)">' + items.length + ' of ' + DATA.strategies.length + ' shown</p>' : '';
+      if (!items.length) return count + '<div class="empty">Nothing matches that combination. <button class="btn" id="resetFilters">Reset filters</button></div>';
+      return count + '<div class="stack">' + items.map(stratCard).join('') + '</div>';
     }
     function stratCard(s) {
       var ev = s.evidence === 'Strong' ? 'strong' : s.evidence === 'Moderate' ? 'moderate' : 'emerging';
@@ -338,14 +365,22 @@
       '<div class="view">' +
         '<span class="kicker">Part 3 · Operating manual</span>' +
         '<h1 style="font-size:var(--step-3);margin-bottom:var(--s2)">Strategies</h1>' +
-        '<p class="lede">' + DATA.strategies.length + ' approaches. Each says what it is, why it works, and how to start. Filter to what you need right now.</p>' +
-        '<div class="chips" id="catChips">' + catChips() + '</div>' +
-        '<div class="chips" id="timeChips" style="margin-top:0">' + timeChips() + '</div>' +
-        '<div id="stratList">' + listHtml() + '</div>' +
+        '<p class="lede">' + DATA.strategies.length + ' approaches. Each says what it is, why it works, and how to start. The full set is below; narrow it only if you want to.</p>' +
+        '<details class="disc" id="stratFilters">' +
+          '<summary><span id="filterSummary">' + esc(filterSummary()) + '</span><span class="chev" aria-hidden="true">›</span></summary>' +
+          '<div class="disc__body">' +
+            '<span class="kicker" style="margin-bottom:var(--s2)">By area</span>' +
+            '<div class="chips" id="catChips" style="margin-top:0">' + catChips() + '</div>' +
+            '<span class="kicker" style="margin-bottom:var(--s2)">By timing</span>' +
+            '<div class="chips" id="timeChips" style="margin:0">' + timeChips() + '</div>' +
+          '</div>' +
+        '</details>' +
+        '<div id="stratList" style="margin-top:var(--s4)">' + listHtml() + '</div>' +
       '</div>';
 
     function onMount() {
       var listEl = document.getElementById('stratList');
+      var summaryEl = document.getElementById('filterSummary');
       document.getElementById('catChips').addEventListener('click', function (e) {
         var b = e.target.closest('[data-cat]'); if (!b) return;
         stratState.cat = b.getAttribute('data-cat');
@@ -362,6 +397,7 @@
       function refreshPressed() {
         [].forEach.call(document.querySelectorAll('[data-cat]'), function (b) { b.setAttribute('aria-pressed', stratState.cat === b.getAttribute('data-cat')); });
         [].forEach.call(document.querySelectorAll('[data-timing]'), function (b) { b.setAttribute('aria-pressed', stratState.timing === b.getAttribute('data-timing')); });
+        if (summaryEl) summaryEl.textContent = filterSummary();
       }
     }
     return { html: html, here: 'Strategies', up: '#/board', onMount: onMount };
@@ -406,9 +442,9 @@
       var back =
         '<p style="font-size:var(--step--1)">' + inline(b.mechanism) + '</p>' +
         (b.systems && b.systems.length ? '<p class="mono" style="font-size:0.66rem;color:var(--signal);margin-top:var(--s2)">' + b.systems.map(esc).join(' · ') + '</p>' : '');
-      return '<button class="flip" data-flip aria-pressed="false">' +
+      return '<button class="flip" data-flip aria-pressed="false" aria-label="' + esc(b.title) + ' — reveal the mechanism">' +
         '<span class="flip__inner">' +
-          '<span class="flip__face flip__face--front">' +
+          '<span class="flip__face flip__face--front" aria-hidden="false">' +
             '<span class="card__sub">' + esc(b.category) + '</span>' +
             '<h3 class="card__title" style="margin:var(--s1) 0 var(--s2)">' + esc(b.title) + '</h3>' +
             '<span style="display:block;color:var(--ink-soft);font-size:var(--step--1)">' + inline(b.observable) + '</span>' +
@@ -449,9 +485,18 @@
   }
   function bindFlips(scope) {
     [].forEach.call(scope.querySelectorAll('[data-flip]'), function (el) {
-      el.addEventListener('click', function () {
-        var on = el.getAttribute('aria-pressed') === 'true';
-        el.setAttribute('aria-pressed', String(!on));
+      // Keep the a11y tree in sync with the visible face — otherwise screen
+      // readers hear the behaviour while sighted users see the mechanism.
+      function setFlipped(next) {
+        el.setAttribute('aria-pressed', String(next));
+        var front = el.querySelector('.flip__face--front');
+        var back = el.querySelector('.flip__face--back');
+        if (front) front.setAttribute('aria-hidden', String(next));
+        if (back) back.setAttribute('aria-hidden', String(!next));
+      }
+      el.addEventListener('click', function () { setFlipped(el.getAttribute('aria-pressed') !== 'true'); });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && el.getAttribute('aria-pressed') === 'true') setFlipped(false);
       });
     });
   }
@@ -562,7 +607,7 @@
         var shown = Math.min(100, v);
         fill.style.height = shown + '%';
         pct.textContent = v + '%';
-        if (v >= 100) { fill.classList.add('over'); msg.textContent = 'Overflow. This is where the pen gets thrown.'; }
+        if (v >= 100) { fill.classList.add('over'); msg.textContent = 'Overflow. Past here, a small trigger produces a large response.'; }
         else { fill.classList.remove('over');
           msg.textContent = v === 0 ? 'Empty. A fresh start.' : v < 40 ? 'Capacity to spare.' : v < 75 ? 'Filling up — running on reserves.' : 'Near the edge. Small things will feel big.';
         }
@@ -590,7 +635,7 @@
       var v = saved[i] || 0;
       return '<div class="axis"><div class="axis__head"><span class="axis__name">' + esc(name) + '</span>' +
         '<span class="axis__val" data-val="' + i + '">' + valLabel(v) + '</span></div>' +
-        '<input type="range" min="-3" max="3" step="1" value="' + v + '" data-axis="' + i + '" aria-label="' + esc(name) + ' sensitivity" />' +
+        '<input type="range" min="-3" max="3" step="1" value="' + v + '" data-axis="' + i + '" aria-label="' + esc(name) + ' sensitivity" aria-valuetext="' + esc(valText(v)) + '" />' +
         '<div class="axis__scale"><span>Hypo · seeks</span><span>Neutral</span><span>Hyper · floods</span></div></div>';
     }
     var html =
@@ -610,17 +655,23 @@
       axesEl.addEventListener('input', function (e) {
         var inp = e.target.closest('[data-axis]'); if (!inp) return;
         var i = +inp.getAttribute('data-axis');
+        inp.setAttribute('aria-valuetext', valText(+inp.value));
         axesEl.querySelector('[data-val="' + i + '"]').textContent = valLabel(+inp.value);
         wrap.innerHTML = radarSvg(vals());
       });
       document.getElementById('profReset').addEventListener('click', function () {
-        AXES.forEach(function (_, i) { axesEl.querySelector('[data-axis="' + i + '"]').value = 0; axesEl.querySelector('[data-val="' + i + '"]').textContent = valLabel(0); });
+        AXES.forEach(function (_, i) {
+          var inp = axesEl.querySelector('[data-axis="' + i + '"]');
+          inp.value = 0; inp.setAttribute('aria-valuetext', valText(0));
+          axesEl.querySelector('[data-val="' + i + '"]').textContent = valLabel(0);
+        });
         wrap.innerHTML = radarSvg(AXES.map(function () { return 0; }));
       });
       document.getElementById('profSave').addEventListener('click', function () {
-        saveProfile(vals());
-        var b = document.getElementById('profSave'); b.textContent = 'Saved ✓';
-        setTimeout(function () { b.textContent = 'Save on this device'; }, 1600);
+        var ok = saveProfile(vals());
+        var b = document.getElementById('profSave');
+        b.textContent = ok ? 'Saved ✓' : "Couldn't save on this device";
+        setTimeout(function () { b.textContent = 'Save on this device'; }, ok ? 1600 : 2600);
       });
     }
     return { html: html, here: 'Profile', up: '#/explore', onMount: onMount };
@@ -629,6 +680,12 @@
     if (v === 0) return 'neutral';
     var dir = v < 0 ? 'hypo' : 'hyper';
     return dir + ' ' + (Math.abs(v) === 3 ? '•••' : Math.abs(v) === 2 ? '••' : '•');
+  }
+  // Spoken equivalent of valLabel for screen readers (the dots read as nonsense).
+  function valText(v) {
+    if (v === 0) return 'neutral';
+    var mag = Math.abs(v) === 3 ? 'strongly ' : Math.abs(v) === 2 ? 'moderately ' : 'mildly ';
+    return v < 0 ? mag + 'hypo-sensitive, seeks input' : mag + 'hyper-sensitive, floods';
   }
   function radarSvg(vals) {
     var cx = 140, cy = 140, R = 110, n = AXES.length;
@@ -662,7 +719,7 @@
     try { var s = JSON.parse(localStorage.getItem('static.profile') || '[]'); return Array.isArray(s) && s.length === AXES.length ? s : AXES.map(function () { return 0; }); }
     catch (e) { return AXES.map(function () { return 0; }); }
   }
-  function saveProfile(v) { try { localStorage.setItem('static.profile', JSON.stringify(v)); } catch (e) {} }
+  function saveProfile(v) { try { localStorage.setItem('static.profile', JSON.stringify(v)); return true; } catch (e) { return false; } }
 
   /* ---------- ABOUT ---------- */
   function viewAbout() {
@@ -715,5 +772,10 @@
 
   // go
   if (!location.hash) location.replace('#/');
+  // Stamp the entry point as depth 0 so Back is correctly disabled at the root.
+  if (!history.state || typeof history.state.d !== 'number') {
+    history.replaceState({ d: 0 }, '');
+  }
+  lastDepth = navDepthNow();
   render();
 })();
